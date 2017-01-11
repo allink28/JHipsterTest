@@ -19,6 +19,7 @@
         });
 
         function clear () {
+            console.log("server-dialog's clear function called");
             $uibModalInstance.dismiss('cancel');
         }
 

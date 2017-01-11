@@ -79,6 +79,31 @@
                 });
             }]
         })
+        .state('discoveryRequest', {
+            parent: 'server',
+            url: '/discoveryRequest/{id}',
+            data: {
+                authorities: ['ROLE_USER']
+            },
+            onEnter: ['$stateParams', '$state', '$uibModal', function($stateParams, $state, $uibModal) {
+                $uibModal.open({
+                    templateUrl: 'app/entities/server/discovery-dialog.html',
+                    controller: 'DiscoveryDialogController',
+                    controllerAs: 'vm',
+                    backdrop: 'static',
+                    size: 'lg',
+                    resolve: {
+                        entity: ['Server', function(Server) {
+                            return Server.get({id : $stateParams.id}).$promise;
+                        }]
+                    }
+                }).result.then(function() {
+                    $state.go('server', null, { reload: 'server' });
+                }, function() {
+                    $state.go('server');
+                });
+            }]
+        })
         .state('server.new', {
             parent: 'server',
             url: '/new',

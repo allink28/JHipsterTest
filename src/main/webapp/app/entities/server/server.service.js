@@ -13,9 +13,9 @@
             'query': { method: 'GET', isArray: true},
             'get': {
                 method: 'GET',
-                transformResponse: function (data) {
+                transformResponse: function (data) { //'data' is initially the server id, name, uri, etc. in json format
                     if (data) {
-                        data = angular.fromJson(data);
+                        data = angular.fromJson(data); //converts Json to Object
                     }
                     return data;
                 }
