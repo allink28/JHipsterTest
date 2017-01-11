@@ -83,7 +83,7 @@ public class ServerResource {
     @Timed
     public List<Server> getAllServers() {
         log.debug("REST request to get all Servers");
-        List<Server> servers = serverRepository.findByUserIsCurrentUser();
+        List<Server> servers = serverRepository.findAll(); //TODO only return this user's servers
         return servers;
     }
 

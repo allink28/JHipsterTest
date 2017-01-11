@@ -13,6 +13,6 @@ import java.util.List;
 public interface ServerRepository extends MongoRepository<Server,String> {
 
 //TODO mongo query    @Query("select server from Server server where server.user.login = ?#{principal.username}")
-    List<Server> findByUserIsCurrentUser();
+//    List<Server> findByUserIsCurrentUser();
 
 }
