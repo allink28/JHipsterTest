@@ -5,9 +5,9 @@
         .module('jHipsterTestApp')
         .controller('DiscoveryDialogController', DiscoveryDialogController);
 
-    DiscoveryDialogController.$inject = ['$timeout', '$scope', '$stateParams', '$uibModalInstance', 'entity', 'Server'];
+    DiscoveryDialogController.$inject = ['$timeout', '$scope', '$http', '$stateParams', '$uibModalInstance', 'entity', 'Server'];
 
-    function DiscoveryDialogController ($timeout, $scope, $stateParams, $uibModalInstance, entity, Server) {
+    function DiscoveryDialogController ($timeout, $scope, $http, $stateParams, $uibModalInstance, entity, Server) {
         var vm = this;
 
         vm.server = entity;
@@ -25,6 +25,16 @@
 
         function request () {
             console.log('submitDiscoveryRequest function called');
+            //todo  Call discovery endpoint
+            $http({
+                method: 'GET',
+                url: '/api/commands/servers'
+            }).then(function successCallback(response) {
+                console.log("Successcallback has response: " + response);
+            }, function errorCallback(response) {
+                console.log("Error callback! Response: " + response);
+            });
+
         }
 
         function save () {

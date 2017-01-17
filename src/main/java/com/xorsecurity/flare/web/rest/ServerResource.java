@@ -4,6 +4,7 @@ import com.codahale.metrics.annotation.Timed;
 import com.xorsecurity.flare.domain.Server;
 
 import com.xorsecurity.flare.repository.ServerRepository;
+import com.xorsecurity.flare.service.DiscoveryService;
 import com.xorsecurity.flare.web.rest.util.HeaderUtil;
 
 import org.slf4j.Logger;
@@ -119,4 +120,29 @@ public class ServerResource {
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert("server", id.toString())).build();
     }
 
+    // ------ Commands ------
+
+    @GetMapping("/commands/servers/{id}")
+    @Timed
+    public ResponseEntity<Void> discoveryEndpoint(@PathVariable String id) throws URISyntaxException {
+        log.debug("Discovery endpoint reached! Server id: " + id);
+//        log.debug("REST request to save Server : {}", postBody);
+//        if (postBody == null) {
+//            return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert("postBody", "nullPostBody", "No Post body received")).body(null);
+//        }
+//        Server result = serverRepository.save(server);
+//        return ResponseEntity.created(new URI("/api/servers/" + result.getId()))
+//            .headers(HeaderUtil.createEntityCreationAlert("server", result.getId().toString()))
+//            .body(result);
+
+        Server server = serverRepository.findOne(id);
+        if (server == null) {
+            return ResponseEntity.notFound().build();
+        }
+        DiscoveryService.sendDiscoveryRequest(server);
+
+        //discovery request
+
+        return ResponseEntity.ok().headers(HeaderUtil.createEntityUpdateAlert("server","discovery request.")).body(null);
+    }
 }
