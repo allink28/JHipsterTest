@@ -34,7 +34,7 @@ public class DiscoveryService {
         if (server.getUsername() != null && !server.getUsername().isEmpty()) {
             useAuth = true;
         }
-        return ServiceExecutor.configureServer(server.getName(), server.getUri(), useAuth, server.getUsername(), server.getPassword()).getDetailMessage();
+        return ServiceExecutor.configureServer(server.getName(), server.getUri(), useAuth, server.getUsername(), server.getPassword()).toJSONString();
     }
 
 

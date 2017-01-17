@@ -124,7 +124,7 @@ public class ServerResource {
 
     @GetMapping("/commands/servers/{id}")
     @Timed
-    public ResponseEntity<Void> discoveryEndpoint(@PathVariable String id) throws URISyntaxException {
+    public ResponseEntity<String> discoveryEndpoint(@PathVariable String id) throws URISyntaxException {
         log.debug("Discovery endpoint reached! Server id: " + id);
 //        log.debug("REST request to save Server : {}", postBody);
 //        if (postBody == null) {
@@ -137,12 +137,11 @@ public class ServerResource {
 
         Server server = serverRepository.findOne(id);
         if (server == null) {
-            return ResponseEntity.notFound().build();
+            return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert("server", "notFound", "A server with that ID cannot be found.")).body(null);
         }
-        DiscoveryService.sendDiscoveryRequest(server);
+        String discoveryResult = DiscoveryService.sendDiscoveryRequest(server);
+        log.debug("DiscoveryResult: " + discoveryResult);
 
-        //discovery request
-
-        return ResponseEntity.ok().headers(HeaderUtil.createEntityUpdateAlert("server","discovery request.")).body(null);
+        return ResponseEntity.ok().headers(HeaderUtil.createEntityUpdateAlert("server","discovery request.")).body(discoveryResult);
     }
 }

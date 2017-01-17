@@ -28,11 +28,11 @@
             //todo  Call discovery endpoint
             $http({
                 method: 'GET',
-                url: '/api/commands/servers'
+                url: '/api/commands/servers/' + vm.server.id
             }).then(function successCallback(response) {
-                console.log("Successcallback has response: " + response);
+                console.log("Successcallback has response: " + JSON.stringify(response.data));
             }, function errorCallback(response) {
-                console.log("Error callback! Response: " + response);
+                console.log("Error callback! Response: " + response.statusText);
             });
 
         }
